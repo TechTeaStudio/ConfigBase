@@ -1,13 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-
-  <ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageId>TechTeaStudio.Config.Xml</PackageId>
+		<Version>0.1.0</Version>
+		<Authors>Ronald Ryan</Authors>
+		<Company>TechTeaStudio</Company>
+		<Description>XML configurator for TechTeaStudio configuration.</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryUrl>https://github.com/TechTeaStudio/ConfigBase</RepositoryUrl>
+		<PackageIcon>XmlIcon.png</PackageIcon>
+		<PackageTags>config xml TechTeaStudio</PackageTags>
+		<Copyright>Copyright © Tech Tea Studio 2024</Copyright>
+	</PropertyGroup>
+	
+	<ItemGroup>
     <ProjectReference Include="..\TechTeaStudio.Config\TechTeaStudio.Config.csproj" />
-  </ItemGroup>
-
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
+		<None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
+		<None Include="..\..\XmlIcon.png" Pack="true" PackagePath="\" />
+	</ItemGroup>
+	
 </Project>

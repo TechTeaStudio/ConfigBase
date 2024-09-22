@@ -1,9 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageId>TechTeaStudio.Config</PackageId>
+		<Version>0.1.0</Version>
+		<Authors>Ronald Ryan</Authors>
+		<Company>Tech Tea Studio</Company>
+		<Description>Base configurator for JSON configuration.</Description>
+		<RepositoryUrl>https://github.com/TechTeaStudio/ConfigBase</RepositoryUrl>
+		<PackageIcon>BaseIcon.png</PackageIcon>
+		<PackageTags>config json TechTeaStudio</PackageTags>
+		<Copyright>Copyright © Tech Tea Studio 2024</Copyright>
+
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<!-- License and README file paths -->
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\BaseIcon.png" Pack="true" PackagePath="\" />
+		<None Include="..\..\README.md" Pack="true" PackagePath="\" />
+		<None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
+	</ItemGroup>
 
 </Project>

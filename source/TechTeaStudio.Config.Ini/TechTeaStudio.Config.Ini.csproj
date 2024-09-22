@@ -1,9 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageId>TechTeaStudio.Config.Ini</PackageId>
+		<Version>0.1.0</Version>
+		<Authors>Ronald Ryan</Authors>
+		<Company>TechTeaStudio</Company>
+		<Description>Ini configurator for TechTeaStudio configuration.</Description>
+		<RepositoryUrl>https://github.com/TechTeaStudio/ConfigBase</RepositoryUrl>
+		<PackageIcon>IniIcon.png</PackageIcon>
+		<PackageTags>config ini TechTeaStudio</PackageTags>
+		<Copyright>Copyright © Tech Tea Studio 2024</Copyright>
+	</PropertyGroup>
+
+
+	<PropertyGroup>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<!-- License and README file paths -->
+	</PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TechTeaStudio.Config\TechTeaStudio.Config.csproj" />
+	  <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+	  <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
+	  <None Include="..\..\IniIcon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
 </Project>
