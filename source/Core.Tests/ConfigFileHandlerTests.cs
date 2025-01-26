@@ -1,133 +1,131 @@
 using Moq;
 
+using NUnit.Framework;
+
 namespace TechTeaStudio.Config.Tests;
 
 public sealed class TestConfig
 {
-	public string Setting1 { get; set; } = "DefaultValue";
+    public string Setting1 { get; set; } = "DefaultValue";
 }
 
 public class ConfigFileHandlerTests
 {
-	private const string DirectoryPath = "TestConfig";
-	private const string FileName = "testConfig";
-	private const string FileExtension = "json";
+    private const string DirectoryPath = "TestConfig";
+    private const string FileName = "testConfig";
+    private const string FileExtension = "json";
 
+    [SetUp]
+    public void Setup()
+    {
+        if (Directory.Exists(DirectoryPath))
+        {
+            Directory.Delete(DirectoryPath, true);
+        }
+    }
 
+    [Test]
+    public void ReadConfig_FileDoesNotExist_CreatesFileWithDefaultConfig()
+    {
+        // Arrange
+        var defaultConfig = new TestConfig();
+        var mockSerializer = new Mock<IConfigSerializer<TestConfig>>();
+        mockSerializer.Setup(s => s.Serialize(It.IsAny<TestConfig>()))
+                      .Returns("{\"Setting1\":\"DefaultValue\"}");
+        mockSerializer.Setup(s => s.Deserialize(It.IsAny<string>()))
+                      .Returns(new TestConfig { Setting1 = "DefaultValue" });
 
-	[SetUp]
-	public void Setup()
-	{
-		if (Directory.Exists(DirectoryPath))
-		{
-			Directory.Delete(DirectoryPath, true);
-		}
-	}
+        var configHandler = new ConfigFileHandler<TestConfig>(DirectoryPath, FileName, FileExtension, defaultConfig, mockSerializer.Object);
 
-	[Test]
-	public void ReadConfig_FileDoesNotExist_CreatesFileWithDefaultConfig()
-	{
-		// Arrange
-		var defaultConfig = new TestConfig();
-		var mockSerializer = new Mock<IConfigSerializer<TestConfig>>();
-		mockSerializer.Setup(s => s.Serialize(It.IsAny<TestConfig>()))
-					  .Returns("{\"Setting1\":\"DefaultValue\"}");
-		mockSerializer.Setup(s => s.Deserialize(It.IsAny<string>()))
-					  .Returns(new TestConfig { Setting1 = "DefaultValue" });
+        // Act
+        var config = configHandler.ReadConfig();
 
-		var configHandler = new ConfigFileHandler<TestConfig>(DirectoryPath, FileName, FileExtension, defaultConfig, mockSerializer.Object);
+        // Assert
+        Assert.That(config, Is.Not.Null);
+        Assert.That(config.Setting1, Is.EqualTo("DefaultValue"));
+        Assert.That(File.Exists(Path.Combine(DirectoryPath, $"{FileName}.{FileExtension}")), Is.True);
+    }
 
-		// Act
-		var config = configHandler.ReadConfig();
+    [Test]
+    public void SaveConfig_WritesConfigToFile()
+    {
+        // Arrange
+        var config = new TestConfig { Setting1 = "NewValue" };
+        var mockSerializer = new Mock<IConfigSerializer<TestConfig>>();
+        mockSerializer.Setup(s => s.Serialize(config))
+                      .Returns("{\"Setting1\":\"NewValue\"}");
 
-		// Assert
-		Assert.NotNull(config);
-		Assert.AreEqual("DefaultValue", config.Setting1);
-		Assert.True(File.Exists(Path.Combine(DirectoryPath, $"{FileName}.{FileExtension}")));
-	}
+        var configHandler = new ConfigFileHandler<TestConfig>(DirectoryPath, FileName, FileExtension, new TestConfig(), mockSerializer.Object);
 
-	[Test]
-	public void SaveConfig_WritesConfigToFile()
-	{
-		// Arrange
-		var config = new TestConfig { Setting1 = "NewValue" };
-		var mockSerializer = new Mock<IConfigSerializer<TestConfig>>();
-		mockSerializer.Setup(s => s.Serialize(config))
-					  .Returns("{\"Setting1\":\"NewValue\"}");
+        // Act
+        configHandler.SaveConfig(config);
 
-		var configHandler = new ConfigFileHandler<TestConfig>(DirectoryPath, FileName, FileExtension, new TestConfig(), mockSerializer.Object);
+        // Assert
+        var savedContent = File.ReadAllText(Path.Combine(DirectoryPath, $"{FileName}.{FileExtension}"));
+        Assert.That(savedContent, Is.EqualTo("{\"Setting1\":\"NewValue\"}"));
+    }
 
-		// Act
-		configHandler.SaveConfig(config);
+    [Test]
+    public void ReadConfig_HandlesExceptionDuringRead()
+    {
+        // Arrange
+        var mockSerializer = new Mock<IConfigSerializer<TestConfig>>();
+        mockSerializer.Setup(s => s.Deserialize(It.IsAny<string>()))
+                      .Throws(new Exception("Deserialization error"));
 
-		// Assert
-		var savedContent = File.ReadAllText(Path.Combine(DirectoryPath, $"{FileName}.{FileExtension}"));
-		Assert.AreEqual("{\"Setting1\":\"NewValue\"}", savedContent);
-	}
+        var configHandler = new ConfigFileHandler<TestConfig>(DirectoryPath, FileName, FileExtension, new TestConfig(), mockSerializer.Object);
 
-	[Test]
-	public void ReadConfig_HandlesExceptionDuringRead()
-	{
-		// Arrange
-		var mockSerializer = new Mock<IConfigSerializer<TestConfig>>();
-		mockSerializer.Setup(s => s.Deserialize(It.IsAny<string>()))
-					  .Throws(new Exception("Deserialization error"));
+        File.WriteAllText(Path.Combine(DirectoryPath, $"{FileName}.{FileExtension}"), "{malformed json}");
 
-		var configHandler = new ConfigFileHandler<TestConfig>(DirectoryPath, FileName, FileExtension, new TestConfig(), mockSerializer.Object);
+        // Act & Assert
+        var exception = Assert.Throws<InvalidOperationException>(() => configHandler.ReadConfig());
+        Assert.That(exception.Message, Does.Contain("Error reading config file"));
+    }
 
-		File.WriteAllText(Path.Combine(DirectoryPath, $"{FileName}.{FileExtension}"), "{malformed json}");
+    [Test]
+    public void SaveConfig_HandlesExceptionDuringWrite()
+    {
+        // Arrange
+        var config = new TestConfig { Setting1 = "NewValue" };
+        var mockSerializer = new Mock<IConfigSerializer<TestConfig>>();
+        mockSerializer.Setup(s => s.Serialize(config)).Throws(new Exception("Serialization error"));
 
-		// Act & Assert
-		var exception = Assert.Throws<InvalidOperationException>(() => configHandler.ReadConfig());
-		Assert.That(exception.Message, Does.Contain("Error reading config file"));
-	}
+        var configHandler = new ConfigFileHandler<TestConfig>(DirectoryPath, FileName, FileExtension, new TestConfig(), mockSerializer.Object);
 
-
-	[Test]
-	public void SaveConfig_HandlesExceptionDuringWrite()
-	{
-		// Arrange
-		var config = new TestConfig { Setting1 = "NewValue" };
-		var mockSerializer = new Mock<IConfigSerializer<TestConfig>>();
-		mockSerializer.Setup(s => s.Serialize(config)).Throws(new Exception("Serialization error"));
-
-		var configHandler = new ConfigFileHandler<TestConfig>(DirectoryPath, FileName, FileExtension, new TestConfig(), mockSerializer.Object);
-
-		// Act & Assert
-		var exception = Assert.Throws<InvalidOperationException>(() => configHandler.SaveConfig(config));
-		Assert.That(exception.Message, Does.Contain("Error writing config file"));
-	}
+        // Act & Assert
+        var exception = Assert.Throws<InvalidOperationException>(() => configHandler.SaveConfig(config));
+        Assert.That(exception.Message, Does.Contain("Error writing config file"));
+    }
 }
 
 public class JsonConfigSerializerTests
 {
-	[Test]
-	public void Deserialize_ValidJson_ReturnsObject()
-	{
-		// Arrange
-		var json = "{\"Setting1\":\"Value\"}";
-		var serializer = new JsonConfigSerializer<TestConfig>();
+    [Test]
+    public void Deserialize_ValidJson_ReturnsObject()
+    {
+        // Arrange
+        var json = "{\"Setting1\":\"Value\"}";
+        var serializer = new JsonConfigSerializer<TestConfig>();
 
-		// Act
-		var config = serializer.Deserialize(json);
+        // Act
+        var config = serializer.Deserialize(json);
 
-		// Assert
-		Assert.NotNull(config);
-		Assert.AreEqual("Value", config.Setting1);
-	}
+        // Assert
+        Assert.That(config, Is.Not.Null);
+        Assert.That(config.Setting1, Is.EqualTo("Value"));
+    }
 
-	[Test]
-	public void Serialize_ValidObject_ReturnsJson()
-	{
-		// Arrange
-		var config = new TestConfig { Setting1 = "Value" };
-		var serializer = new JsonConfigSerializer<TestConfig>();
+    [Test]
+    public void Serialize_ValidObject_ReturnsJson()
+    {
+        // Arrange
+        var config = new TestConfig { Setting1 = "Value" };
+        var serializer = new JsonConfigSerializer<TestConfig>();
 
-		// Act
-		var json = serializer.Serialize(config);
+        // Act
+        var json = serializer.Serialize(config);
 
-		// Assert
-		Assert.That(json, Is.EqualTo("{\r\n  \"Setting1\": \"Value\"\r\n}"));
-	}
-
+        // Assert
+        Assert.That(json, Is.EqualTo("{\r\n  \"Setting1\": \"Value\"\r\n}"));
+    }
 }
