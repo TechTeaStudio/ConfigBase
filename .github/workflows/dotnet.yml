@@ -37,6 +37,7 @@ jobs:
       - name: Test
         run: dotnet test source/TechTeaStudio.Config/TechTeaStudio.Config.sln --no-build --verbosity normal
 
+      # 6. Extract versions and pack
       - name: Extract versions
         id: get-versions
         run: |
@@ -49,7 +50,9 @@ jobs:
               --output ./artifacts \
               --no-build \
               /p:PackageVersion=$VERSION
-      
+          done
+
+      # 7. Push all NuGet packages
       - name: Push all NuGet packages
         run: |
           for pkg in ./artifacts/*.nupkg; do
@@ -58,4 +61,5 @@ jobs:
               --source https://api.nuget.org/v3/index.json \
               --api-key ${{ secrets.NUGET_API_KEY }} \
               --skip-duplicate
+          done
 
