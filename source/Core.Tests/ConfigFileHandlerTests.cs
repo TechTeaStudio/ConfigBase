@@ -2,6 +2,8 @@ using Moq;
 
 using NUnit.Framework;
 
+using System.Text.Json;
+
 namespace TechTeaStudio.Config.Tests;
 
 public sealed class TestConfig
@@ -121,11 +123,12 @@ public class JsonConfigSerializerTests
         // Arrange
         var config = new TestConfig { Setting1 = "Value" };
         var serializer = new JsonConfigSerializer<TestConfig>();
+        var expectedJson = JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true });
 
         // Act
         var json = serializer.Serialize(config);
 
         // Assert
-        Assert.That(json, Is.EqualTo("{\r\n  \"Setting1\": \"Value\"\r\n}"));
+        Assert.That(json, Is.EqualTo(expectedJson));
     }
 }

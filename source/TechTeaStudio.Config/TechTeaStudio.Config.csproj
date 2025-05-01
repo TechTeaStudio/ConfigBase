@@ -15,6 +15,9 @@
 		<PackageTags>config json TechTeaStudio</PackageTags>
 		<Copyright>Copyright © Tech Tea Studio 2025</Copyright>
 
+		<PackageReleaseNotes>
+			Fix xml.
+		</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<PropertyGroup>
