@@ -1,0 +1,53 @@
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-publish:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout
+      - uses: actions/checkout@v4
+
+      # 2. Setup .NET SDK
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      # 3. Restore
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # 4. Build
+      - name: Build
+        run: dotnet build --no-restore
+
+      # 5. Test
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+
+      # 6. Pack
+      - name: Pack NuGet Package
+        run: |
+          VERSION=$(grep -Po '(?<=<Version>)[^<]+' source/TechTeaStudio.Config/TechTeaStudio.Config.csproj)
+          dotnet pack source/TechTeaStudio.Config/TechTeaStudio.Config.csproj \
+            --configuration Release \
+            --output ./artifacts \
+            --no-build \
+            /p:PackageVersion=$VERSION
+
+      # 7. Push to NuGet.org
+      - name: Push to NuGet.org
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          dotnet nuget push ./artifacts/*.nupkg \
+            --api-key $NUGET_API_KEY \
+            --source https://api.nuget.org/v3/index.json
