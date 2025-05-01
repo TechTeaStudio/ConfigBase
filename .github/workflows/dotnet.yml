@@ -31,11 +31,11 @@ jobs:
 
       # 4. Build
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build source/TechTeaStudio.Config/TechTeaStudio.Config.sln --no-restore
 
       # 5. Test
       - name: Test
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test source/TechTeaStudio.Config/TechTeaStudio.Config.sln --no-build --verbosity normal
 
       - name: Extract versions
         id: get-versions
