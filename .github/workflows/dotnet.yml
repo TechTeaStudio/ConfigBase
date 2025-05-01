@@ -43,7 +43,11 @@ jobs:
         run: |
           mkdir -p artifacts
           for proj in source/*/*.csproj; do
-            VERSION=$(grep -Po '(?<=<Version>)[^<]+' "$proj")
+            VERSION=$(grep -Po '(?<=<Version>)[^<]+' "$proj" || true)
+            if [[ -z "$VERSION" ]]; then
+              echo "Skipping $proj - no <Version> tag found"
+              continue
+            fi
             echo "Packing $proj version $VERSION"
             dotnet pack "$proj" \
               --configuration Release \
