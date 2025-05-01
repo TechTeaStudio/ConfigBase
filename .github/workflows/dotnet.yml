@@ -33,6 +33,12 @@ jobs:
       - name: Build
         run: dotnet build source/TechTeaStudio.Config/TechTeaStudio.Config.sln --no-restore
 
+      - name: Build projects for packing
+        run: |
+          for proj in source/*/*.csproj; do
+            dotnet build "$proj" --configuration Release
+          done
+          
       # 5. Test
       - name: Test
         run: dotnet test source/TechTeaStudio.Config/TechTeaStudio.Config.sln --no-build --verbosity normal
