@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 using TechTeaStudio.Config;
@@ -58,7 +59,7 @@ public class ConfigFileHandler<T> where T : class, new()
 		try
 		{
 			var directoryPath = Path.GetDirectoryName(_filePath);
-			if (!Directory.Exists(directoryPath))
+			if (!string.IsNullOrEmpty(directoryPath) && !Directory.Exists(directoryPath))
 			{
 				Directory.CreateDirectory(directoryPath);
 			}
@@ -89,16 +90,16 @@ public class ConfigFileHandler<T> where T : class, new()
 	}
 
 	/// <summary>Reads the configuration from the file asynchronously</summary>
-	public async Task<T> ReadConfigAsync()
+	public async Task<T> ReadConfigAsync(CancellationToken cancellationToken = default)
 	{
 		try
 		{
 			if (!File.Exists(_filePath))
 			{
-				await CreateConfigFileAsync(_defaultConfig);
+				await CreateConfigFileAsync(_defaultConfig, cancellationToken);
 			}
 
-			var configContent = await File.ReadAllTextAsync(_filePath);
+			var configContent = await File.ReadAllTextAsync(_filePath, cancellationToken);
 			return _serializer.Deserialize(configContent);
 		}
 		catch (Exception ex)
@@ -108,12 +109,12 @@ public class ConfigFileHandler<T> where T : class, new()
 	}
 
 	/// <summary>Saves the configuration to the file asynchronously</summary>
-	public async Task SaveConfigAsync(T config)
+	public async Task SaveConfigAsync(T config, CancellationToken cancellationToken = default)
 	{
 		try
 		{
 			var configContent = _serializer.Serialize(config);
-			await File.WriteAllTextAsync(_filePath, configContent);
+			await File.WriteAllTextAsync(_filePath, configContent, cancellationToken);
 		}
 		catch (Exception ex)
 		{
@@ -122,19 +123,19 @@ public class ConfigFileHandler<T> where T : class, new()
 	}
 
 	/// <summary>Ensures that the configuration file exists asynchronously</summary>
-	private async Task EnsureConfigFileExistsAsync()
+	private async Task EnsureConfigFileExistsAsync(CancellationToken cancellationToken = default)
 	{
 		try
 		{
 			var directoryPath = Path.GetDirectoryName(_filePath);
-			if (!Directory.Exists(directoryPath))
+			if (!string.IsNullOrEmpty(directoryPath) && !Directory.Exists(directoryPath))
 			{
 				Directory.CreateDirectory(directoryPath);
 			}
 
 			if (!File.Exists(_filePath))
 			{
-				await CreateConfigFileAsync(_defaultConfig);
+				await CreateConfigFileAsync(_defaultConfig, cancellationToken);
 			}
 		}
 		catch (Exception ex)
@@ -144,12 +145,12 @@ public class ConfigFileHandler<T> where T : class, new()
 	}
 
 	/// <summary>Creates a new configuration file with default values asynchronously</summary>
-	private async Task CreateConfigFileAsync(T defaultConfig)
+	private async Task CreateConfigFileAsync(T defaultConfig, CancellationToken cancellationToken = default)
 	{
 		try
 		{
 			var defaultConfigContent = _serializer.Serialize(defaultConfig);
-			await File.WriteAllTextAsync(_filePath, defaultConfigContent);
+			await File.WriteAllTextAsync(_filePath, defaultConfigContent, cancellationToken);
 		}
 		catch (Exception ex)
 		{
