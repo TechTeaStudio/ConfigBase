@@ -6,14 +6,14 @@
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageId>TechTeaStudio.Config.Ini</PackageId>
-        <Version>0.1.2</Version>
+        <Version>0.1.3</Version>
         <Authors>Ronald Ryan</Authors>
         <Company>TechTeaStudio</Company>
         <Description>Ini configurator for TechTeaStudio configuration.</Description>
         <RepositoryUrl>https://github.com/TechTeaStudio/ConfigBase</RepositoryUrl>
         <PackageIcon>IniIcon.png</PackageIcon>
         <PackageTags>config ini TechTeaStudio</PackageTags>
-        <Copyright>Copyright © Tech Tea Studio 2025</Copyright>
+        <Copyright>Copyright © Tech Tea Studio 2026</Copyright>
     </PropertyGroup>
 
 

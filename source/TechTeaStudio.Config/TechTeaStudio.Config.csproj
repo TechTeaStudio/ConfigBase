@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageId>TechTeaStudio.Config</PackageId>
-		<Version>0.1.5</Version>
+		<Version>0.1.6</Version>
 		<Authors>Ronald Ryan</Authors>
 		<Company>Tech Tea Studio</Company>
 		<Description>Base configurator for JSON configuration.</Description>
@@ -16,7 +16,7 @@
 		<Copyright>Copyright © Tech Tea Studio 2025</Copyright>
 
 		<PackageReleaseNotes>
-			Net 10.0 update
+			Update License
 		</PackageReleaseNotes>
 	</PropertyGroup>
 

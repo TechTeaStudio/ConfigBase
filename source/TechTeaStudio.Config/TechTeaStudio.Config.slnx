@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/Tests/">
+    <Project Path="../Core.Tests/TechTeaStudio.Config.Tests.csproj" />
+    <Project Path="../TechTeasStudio.Config.Xml.Test/TechTeasStudio.Config.Xml.Test.csproj" />
+    <Project Path="../TechTeaStudio.Config.Sample/TechTeaStudio.Config.Sample.csproj" />
+  </Folder>
+  <Project Path="../TechTeaStudio.Config.Ini/TechTeaStudio.Config.Ini.csproj" />
+  <Project Path="../TechTeaStudio.Config.Xml/TechTeaStudio.Config.Xml.csproj" />
+  <Project Path="../TechTeaStudio.Config.Yaml/TechTeaStudio.Config.Yaml.csproj" />
+  <Project Path="TechTeaStudio.Config.csproj" />
+</Solution>

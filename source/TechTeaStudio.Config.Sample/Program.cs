@@ -5,7 +5,7 @@ internal class Program
     static void Main(string[] args)
     {
         var configHandler = new ConfigFileHandler<MyConfig>(
-            directoryPath: @"E:\\", //путь к директории
+            directoryPath: @"D:\", //путь к директории
             fileName: "config", // Имя файла без расширения
             fileExtension: "json", // Расширение файла
             defaultConfig: new MyConfig
