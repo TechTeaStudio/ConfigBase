@@ -27,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TechTeaStudio.Config\TechTeaStudio.Config.csproj" />
     <ProjectReference Include="..\TechTeaStudio.Config.Ini\TechTeaStudio.Config.Ini.csproj" />
+    <ProjectReference Include="..\TechTeaStudio.Config.Yaml\TechTeaStudio.Config.Yaml.csproj" />
   </ItemGroup>
 
   <ItemGroup>

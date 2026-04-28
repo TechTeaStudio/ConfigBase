@@ -122,27 +122,6 @@ public class ConfigFileHandlerTests
     }
 
     [Test]
-    [Ignore("Temporarily disabled until cancellation behavior is finalized.")]
-    public async Task ReadConfigAsync_WithCancelledToken_AcceptsCancellationToken()
-    {
-        // Arrange
-        var defaultConfig = new TestConfig();
-        var mockSerializer = new Mock<IConfigSerializer<TestConfig>>();
-        var configHandler = new ConfigFileHandler<TestConfig>(DirectoryPath, FileName, FileExtension, defaultConfig, mockSerializer.Object);
-        using var cts = new CancellationTokenSource();
-        cts.Cancel();
-
-        // Act & Assert
-       try
-        {
-            await configHandler.ReadConfigAsync(cts.Token);
-        }
-        catch (OperationCanceledException)
-        {
-        }
-    }
-
-    [Test]
     public async Task SaveConfigAsync_WithCancellationToken_CompletesSuccessfully()
     {
         // Arrange
@@ -160,27 +139,6 @@ public class ConfigFileHandlerTests
         // Assert
         var savedContent = await File.ReadAllTextAsync(Path.Combine(DirectoryPath, $"{FileName}.{FileExtension}"));
         Assert.That(savedContent, Is.EqualTo("{\"Setting1\":\"NewValue\"}"));
-    }
-
-    [Test]
-    [Ignore("Temporarily disabled until cancellation behavior is finalized.")]
-    public async Task SaveConfigAsync_WithCancelledToken_AcceptsCancellationToken()
-    {
-        // Arrange
-        var config = new TestConfig { Setting1 = "NewValue" };
-        var mockSerializer = new Mock<IConfigSerializer<TestConfig>>();
-        var configHandler = new ConfigFileHandler<TestConfig>(DirectoryPath, FileName, FileExtension, new TestConfig(), mockSerializer.Object);
-        using var cts = new CancellationTokenSource();
-        cts.Cancel();
-
-        // Act & Assert
-        try
-        {
-            await configHandler.SaveConfigAsync(config, cts.Token);
-        }
-        catch (OperationCanceledException)
-        {
-        }
     }
 
     [Test]

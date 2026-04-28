@@ -22,6 +22,21 @@ dotnet build source/TechTeaStudio.Config/TechTeaStudio.Config.sln
 dotnet test source/TechTeaStudio.Config/TechTeaStudio.Config.sln
 ```
 
+## Versioning — MANDATORY
+
+This project does **not** use a `VERSION` file. The version lives in each `.csproj`:
+
+```xml
+<Version>0.1.7</Version>
+```
+
+**You MUST bump `<Version>` in every `.csproj` you changed before committing.**
+CI publishes with `--skip-duplicate` — if the version hasn't changed, the package is silently skipped and no new release is published.
+
+- Global CLAUDE.md mentions a `VERSION` file — **ignore that here**, `.csproj` is the source of truth.
+- Bump the same version across all packages being changed in one commit.
+- Version format is 3-part: `X.Y.Z`.
+
 ## Release flow
 
 1. Bump `<Version>` in each changed `.csproj`
@@ -33,5 +48,4 @@ dotnet test source/TechTeaStudio.Config/TechTeaStudio.Config.sln
 ## Commit Convention
 
 Format: `vX.Y.Z <description>` — see global CLAUDE.md.
-Version is 3-part (`X.Y.Z`). Bump the same version across all packages being changed.
-**Update `<Version>` in the relevant `.csproj` files before committing.**
+Version is 3-part (`X.Y.Z`).

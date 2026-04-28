@@ -122,28 +122,6 @@ public class ConfigFileHandler<T> where T : class, new()
 		}
 	}
 
-	/// <summary>Ensures that the configuration file exists asynchronously</summary>
-	private async Task EnsureConfigFileExistsAsync(CancellationToken cancellationToken = default)
-	{
-		try
-		{
-			var directoryPath = Path.GetDirectoryName(_filePath);
-			if (!string.IsNullOrEmpty(directoryPath) && !Directory.Exists(directoryPath))
-			{
-				Directory.CreateDirectory(directoryPath);
-			}
-
-			if (!File.Exists(_filePath))
-			{
-				await CreateConfigFileAsync(_defaultConfig, cancellationToken);
-			}
-		}
-		catch (Exception ex)
-		{
-			throw new InvalidOperationException($"Error ensuring config file exists at {_filePath}", ex);
-		}
-	}
-
 	/// <summary>Creates a new configuration file with default values asynchronously</summary>
 	private async Task CreateConfigFileAsync(T defaultConfig, CancellationToken cancellationToken = default)
 	{

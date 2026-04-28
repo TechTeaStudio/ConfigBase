@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechTeaStudio.Config.Tests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechTeaStudio.Config.Ini", "..\TechTeaStudio.Config.Ini\TechTeaStudio.Config.Ini.csproj", "{F8367037-6459-4E27-9275-F7A981531EAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechTeasStudio.Config.Xml.Test", "..\TechTeasStudio.Config.Xml.Test\TechTeasStudio.Config.Xml.Test.csproj", "{E41AE003-968C-4B8F-96A1-5A57F83A99FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechTeaStudio.Config.Xml.Test", "..\TechTeaStudio.Config.Xml.Test\TechTeaStudio.Config.Xml.Test.csproj", "{E41AE003-968C-4B8F-96A1-5A57F83A99FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

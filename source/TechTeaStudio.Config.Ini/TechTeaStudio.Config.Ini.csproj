@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageId>TechTeaStudio.Config.Ini</PackageId>
-        <Version>0.1.3</Version>
+        <Version>0.1.7</Version>
         <Authors>Ronald Ryan</Authors>
         <Company>TechTeaStudio</Company>
         <Description>Ini configurator for TechTeaStudio configuration.</Description>
@@ -18,9 +18,9 @@
 
 
     <PropertyGroup>
-        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <!-- License and README file paths -->
+        <PackageReleaseNotes>v0.1.7: Unified MIT license expression across all packages.</PackageReleaseNotes>
     </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\TechTeaStudio.Config\TechTeaStudio.Config.csproj" />

@@ -6,24 +6,23 @@
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageId>TechTeaStudio.Config</PackageId>
-		<Version>0.1.6</Version>
+		<Version>0.1.7</Version>
 		<Authors>Ronald Ryan</Authors>
 		<Company>Tech Tea Studio</Company>
-		<Description>Base configurator for JSON configuration.</Description>
+		<Description>Core configuration file handler supporting JSON, INI, XML, and YAML formats.</Description>
 		<RepositoryUrl>https://github.com/TechTeaStudio/ConfigBase</RepositoryUrl>
 		<PackageIcon>BaseIcon.png</PackageIcon>
 		<PackageTags>config json TechTeaStudio</PackageTags>
 		<Copyright>Copyright © Tech Tea Studio 2025</Copyright>
 
 		<PackageReleaseNotes>
-			Update License
+			v0.1.7: Unified MIT license expression across all packages; updated package description; removed dead async helper method.
 		</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<!-- License and README file paths -->
 	</PropertyGroup>
 
 	<ItemGroup>
