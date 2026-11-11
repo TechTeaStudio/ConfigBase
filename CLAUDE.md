@@ -13,7 +13,7 @@ Publisher: Tech Tea Studio. Packages pushed automatically on push to `main`.
 | `TechTeaStudio.Config.Yaml` | `source/TechTeaStudio.Config.Yaml/TechTeaStudio.Config.Yaml.csproj` |
 
 Solution: `source/TechTeaStudio.Config/TechTeaStudio.Config.sln`
-Targets: `net8.0;net9.0;net10.0`
+Targets: `net8.0;net9.0;net10.0;net11.0`
 
 ## Build & Test
 
@@ -27,7 +27,7 @@ dotnet test source/TechTeaStudio.Config/TechTeaStudio.Config.sln
 This project does **not** use a `VERSION` file. The version lives in each `.csproj`:
 
 ```xml
-<Version>0.1.7</Version>
+<Version>0.1.8</Version>
 ```
 
 **You MUST bump `<Version>` in every `.csproj` you changed before committing.**
